@@ -48,5 +48,6 @@ namespace googlefiltermaster
     public DbSet<User> User { get; set; }
     public DbSet<MasterFilter> MasterFilter { get; set; }
     public DbSet<AccountsCache> AccountsCache { get; set; }
+    public DbSet<FiltersCache> FiltersCache { get; set; }
   }
 }

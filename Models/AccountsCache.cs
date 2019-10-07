@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using googlefiltermaster.Models;
 
 namespace GoogleFilterMaster.Models
@@ -9,6 +10,7 @@ namespace GoogleFilterMaster.Models
     public string GoogleAccountId { get; set; }
     public int? UserId { get; set; }
     public User User { get; set; }
+    public List<FiltersCache> FiltersCache { get; set; } = new List<FiltersCache>();
 
     public AccountsCache() { }
 

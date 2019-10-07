@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using googlefiltermaster;
@@ -9,9 +10,10 @@ using googlefiltermaster;
 namespace sdgreacttemplate.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20191007200411_AddedCacheForGoogleFilters")]
+    partial class AddedCacheForGoogleFilters
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,8 +44,6 @@ namespace sdgreacttemplate.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AccountsCacheId");
-
                     b.Property<string>("FilterValue");
 
                     b.Property<string>("GoogleFilterId");
@@ -51,8 +51,6 @@ namespace sdgreacttemplate.Migrations
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountsCacheId");
 
                     b.ToTable("FiltersCache");
                 });
@@ -106,13 +104,6 @@ namespace sdgreacttemplate.Migrations
                     b.HasOne("googlefiltermaster.Models.User", "User")
                         .WithMany("AccountsCache")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("GoogleFilterMaster.Models.FiltersCache", b =>
-                {
-                    b.HasOne("GoogleFilterMaster.Models.AccountsCache", "AccountsCache")
-                        .WithMany("FiltersCache")
-                        .HasForeignKey("AccountsCacheId");
                 });
 
             modelBuilder.Entity("googlefiltermaster.Models.MasterFilter", b =>

@@ -52,6 +52,7 @@ namespace GoogleFilterMaster.Controllers
       // clear the "cache"
       // MATCHING USER ID && ACCOUNT ID
       var accountsToDelete = context.AccountsCache.Where(w => w.UserId == user.Id);
+      // var filtersToDelete = context.FiltersCache.Where(w => w.)
       context.AccountsCache.RemoveRange(accountsToDelete);
       await context.SaveChangesAsync();
 
