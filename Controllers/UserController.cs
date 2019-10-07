@@ -60,7 +60,9 @@ namespace GoogleFilterMaster.Controllers
       {
         var _account = new AccountsCache { GoogleAccountId = account.Id, Name = account.Name, UserId = user.Id };
         // save the account
+        await context.AccountsCache.AddAsync(_account);
         // get the filters
+        var filters = await service.Management.Filters.List(account.Id).ExecuteAsync();
         // save the filters
       }
 
