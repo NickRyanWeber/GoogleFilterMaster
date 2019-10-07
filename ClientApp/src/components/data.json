@@ -1,0 +1,745 @@
+{
+  "masterFilterData": [
+    {
+      "id": 1,
+      "masterFilterTitle": "Nick Weber Home",
+      "filterValue": "108.190.41.10",
+      "gaFilters": [
+        {
+          "id": "1",
+          "gaAccountSelector": "1.1dummydata",
+          "gaPropertySelector": "1.1dummydata",
+          "gaViewSelector": "1.1dummydata",
+          "gaFilterSelector": "1.1dummydata"
+        },
+        {
+          "id": "2",
+          "gaAccountSelector": "1.2dummydata",
+          "gaPropertySelector": "1.2dummydata",
+          "gaViewSelector": "1.2dummydata",
+          "gaFilterSelector": "1.2dummydata"
+        },
+        {
+          "id": "3",
+          "gaAccountSelector": "1.3dummydata",
+          "gaPropertySelector": "1.3dummydata",
+          "gaViewSelector": "1.3dummydata",
+          "gaFilterSelector": "1.3dummydata"
+        },
+        {
+          "id": "4",
+          "gaAccountSelector": "1.4dummydata",
+          "gaPropertySelector": "1.4dummydata",
+          "gaViewSelector": "1.4dummydata",
+          "gaFilterSelector": "1.4dummydata"
+        },
+        {
+          "id": "5",
+          "gaAccountSelector": "1.5dummydata",
+          "gaPropertySelector": "1.5dummydata",
+          "gaViewSelector": "1.5dummydata",
+          "gaFilterSelector": "1.5dummydata"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "masterFilterTitle": "SDG Office",
+      "filterValue": "108.190.41.10",
+      "gaFilters": [
+        {
+          "id": "1",
+          "gaAccountSelector": "2.1dummydata",
+          "gaPropertySelector": "2.1dummydata",
+          "gaViewSelector": "2.1dummydata",
+          "gaFilterSelector": "2.1dummydata"
+        },
+        {
+          "id": "2",
+          "gaAccountSelector": "2.2dummydata",
+          "gaPropertySelector": "2.2dummydata",
+          "gaViewSelector": "2.2dummydata",
+          "gaFilterSelector": "2.2dummydata"
+        },
+        {
+          "id": "3",
+          "gaAccountSelector": "2.3dummydata",
+          "gaPropertySelector": "2.3dummydata",
+          "gaViewSelector": "2.3dummydata",
+          "gaFilterSelector": "2.3dummydata"
+        },
+        {
+          "id": "4",
+          "gaAccountSelector": "2.4dummydata",
+          "gaPropertySelector": "2.4dummydata",
+          "gaViewSelector": "2.4dummydata",
+          "gaFilterSelector": "2.4dummydata"
+        },
+        {
+          "id": "5",
+          "gaAccountSelector": "2.5dummydata",
+          "gaPropertySelector": "2.5dummydata",
+          "gaViewSelector": "2.5dummydata",
+          "gaFilterSelector": "2.5dummydata"
+        },
+        {
+          "id": "6",
+          "gaAccountSelector": "2.6dummydata",
+          "gaPropertySelector": "2.6dummydata",
+          "gaViewSelector": "2.6dummydata",
+          "gaFilterSelector": "2.6dummydata"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "masterFilterTitle": "Marketing in Color Office",
+      "filterValue": "108.190.41.10",
+      "gaFilters": [
+        {
+          "id": "1",
+          "gaAccountSelector": "3.1dummydata",
+          "gaPropertySelector": "3.1dummydata",
+          "gaViewSelector": "3.1dummydata",
+          "gaFilterSelector": "3.1dummydata"
+        },
+        {
+          "id": "2",
+          "gaAccountSelector": "3.2dummydata",
+          "gaPropertySelector": "3.2dummydata",
+          "gaViewSelector": "3.2dummydata",
+          "gaFilterSelector": "3.2dummydata"
+        },
+        {
+          "id": "3",
+          "gaAccountSelector": "3.3dummydata",
+          "gaPropertySelector": "3.3dummydata",
+          "gaViewSelector": "3.3dummydata",
+          "gaFilterSelector": "3.3dummydata"
+        },
+        {
+          "id": "4",
+          "gaAccountSelector": "3.4dummydata",
+          "gaPropertySelector": "3.4dummydata",
+          "gaViewSelector": "3.4dummydata",
+          "gaFilterSelector": "3.4dummydata"
+        },
+        {
+          "id": "5",
+          "gaAccountSelector": "3.5dummydata",
+          "gaPropertySelector": "3.5dummydata",
+          "gaViewSelector": "3.5dummydata",
+          "gaFilterSelector": "3.5dummydata"
+        }
+      ]
+    }
+  ],
+  "gaData": [
+    {
+      "id": 1,
+      "account": "account 1",
+      "properties": [
+        {
+          "name": "property 1",
+          "views": [
+            {
+              "id": 1,
+              "name": "view 1",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "name": "view 2",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "property 2",
+          "views": [
+            {
+              "id": 1,
+              "name": "view 1",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "name": "view 2",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "name": "view 1",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "name": "view 2",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "account": "account 2",
+      "properties": [
+        {
+          "name": "property 1",
+          "views": [
+            {
+              "id": 1,
+              "name": "view 1",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "name": "view 2",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "property 2",
+          "views": [
+            {
+              "id": 1,
+              "name": "view 1",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "name": "view 2",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "name": "view 1",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "name": "view 2",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "account": "account 3",
+      "properties": [
+        {
+          "name": "property 1",
+          "views": [
+            {
+              "id": 1,
+              "name": "view 1",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "name": "view 2",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "property 2",
+          "views": [
+            {
+              "id": 1,
+              "name": "view 1",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "name": "view 2",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "name": "view 1",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "name": "view 2",
+              "filters": [
+                {
+                  "id": 1,
+                  "name": "filter 1",
+                  "value": "197.73.122.97"
+                },
+                {
+                  "id": 2,
+                  "name": "filter 2",
+                  "value": "187.3.4.151"
+                },
+                {
+                  "id": 3,
+                  "name": "filter 3",
+                  "value": "220.36.240.195"
+                },
+                {
+                  "id": 4,
+                  "name": "filter 4",
+                  "value": "146.48.17.213"
+                },
+                {
+                  "id": 5,
+                  "name": "filter 5",
+                  "value": "11.194.58.108"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

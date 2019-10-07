@@ -1,0 +1,29 @@
+:root {
+  font: 16px / 1 sans-serif;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+.card-content {
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.87);
+  /* height: 155px; */
+}
+
+.filter-count {
+  border: 1px solid rgba(0, 0, 0, 0.87);
+}
+
+/* This isn't being applied */
+/* .new-filter-modal {
+  height: 60%;
+  width: 60%;
+  top: 15%;
+} */

@@ -1,0 +1,12 @@
+{
+  "web": {
+    "client_id": "250643534780-4ogmlvj8g2jsfgutbe50paqjdc1v03n0.apps.googleusercontent.com",
+    "project_id": "driven-plexus-254719",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "Dtnf_1dIWinIMmDKu6w-UzpR",
+    "redirect_uris": ["https://localhost:5001/app"],
+    "javascript_origins": ["https://localhost:5001"]
+  }
+}
