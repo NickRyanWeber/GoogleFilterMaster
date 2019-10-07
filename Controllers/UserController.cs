@@ -51,10 +51,11 @@ namespace GoogleFilterMaster.Controllers
 
       // clear the "cache"
       // MATCHING USER ID && ACCOUNT ID
-
+      var accountsToDelete = context.AccountsCache.Where(w => w.UserId == user.Id);
+      context.AccountsCache.RemoveRange(accountsToDelete);
+      await context.SaveChangesAsync();
 
       var accounts = await service.Management.Accounts.List().ExecuteAsync();
-
       foreach (var account in accounts.Items)
       {
         var _account = new AccountsCache { GoogleAccountId = account.Id, Name = account.Name, UserId = user.Id };
