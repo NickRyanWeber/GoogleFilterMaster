@@ -52,7 +52,11 @@ namespace GoogleFilterMaster.Controllers
       // clear the "cache"
       // MATCHING USER ID && ACCOUNT ID
       var accountsToDelete = context.AccountsCache.Where(w => w.UserId == user.Id);
-      // var filtersToDelete = context.FiltersCache.Where(w => w.)
+      foreach (var account in accountsToDelete)
+      {
+        var filtersToDelete = context.FiltersCache.Where(w => w.AccountsCacheId == account.Id);
+        context.FiltersCache.RemoveRange(filtersToDelete);
+      }
       context.AccountsCache.RemoveRange(accountsToDelete);
       await context.SaveChangesAsync();
 
@@ -65,7 +69,14 @@ namespace GoogleFilterMaster.Controllers
         // get the filters
         var filters = await service.Management.Filters.List(account.Id).ExecuteAsync();
         // save the filters
+        var excludeFilters = filters.Items.Where(w => w.ExcludeDetails != null);
+        foreach (var filter in excludeFilters)
+        {
+          var _filter = new FiltersCache { Name = filter.Name, GoogleFilterId = filter.Id, FilterValue = filter.ExcludeDetails.ExpressionValue, AccountsCacheId = _account.Id };
+          await context.FiltersCache.AddAsync(_filter);
+        }
       }
+      await context.SaveChangesAsync();
 
 
       return Redirect("/app");
