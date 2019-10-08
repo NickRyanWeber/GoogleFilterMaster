@@ -4,7 +4,7 @@ import axios from 'axios'
 const TestPages = () => {
   const fetchData = async () => {
     const resp = await axios.get('/api/test')
-    console.log(resp)
+    console.log(resp.data)
   }
 
   useEffect(() => {

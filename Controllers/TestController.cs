@@ -41,7 +41,7 @@ namespace GoogleFilterMaster.Controllers
       // var GoogleId = User.GoogleId.First().Value;
       var googleId = User.Claims.First(f => f.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
 
-      var user = await context.User.FirstOrDefaultAsync(u => u.GoogleId == googleId);
+      var user = await context.User.Include(i => i.AccountsCache).ThenInclude(t => t.FiltersCache).FirstOrDefaultAsync(u => u.GoogleId == googleId);
 
       if (user == null)
       {
