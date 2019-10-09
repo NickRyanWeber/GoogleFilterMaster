@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using GoogleFilterMaster.Models;
+
 namespace googlefiltermaster.Models
 {
   public class MasterFilter
@@ -7,5 +10,6 @@ namespace googlefiltermaster.Models
     public string FilterValue { get; set; }
     public int? UserId { get; set; }
     public User User { get; set; }
+    public List<SelectedFilter> SelectedFilter { get; set; } = new List<SelectedFilter>();
   }
 }

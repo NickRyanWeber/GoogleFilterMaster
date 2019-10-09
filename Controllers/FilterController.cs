@@ -1,35 +1,40 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Google.Apis.Analytics.v3;
-using Google.Apis.Analytics.v3.Data;
-using Google.Apis.Auth.AspNetCore;
-using Google.Apis.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
+using googlefiltermaster;
+using Microsoft.EntityFrameworkCore;
 
-namespace googlefiltermaster.Controllers
+namespace GoogleFilterMaster.Controllers
 {
-
+  [Route("api/[controller]")]
   [ApiController]
-  public class FilterController : ControllerBase
+  public class FilterController : Controller
   {
+    private DatabaseContext context;
 
-    [GoogleScopedAuthorize(AnalyticsService.ScopeConstants.AnalyticsEdit)]
-    [Route("/api/accounts/{accountId}/filters")]
-    [HttpGet]
-    public async System.Threading.Tasks.Task<ActionResult<List<Filter>>> GetAsync([FromServices] IGoogleAuthProvider auth, string accountId)
+    public FilterController(DatabaseContext _context)
     {
+      this.context = _context;
+    }
 
-      var cred = await auth.GetCredentialAsync();
-      var service = new AnalyticsService(new BaseClientService.Initializer
+    [HttpGet]
+    [Authorize]
+    public async Task<ActionResult> GetMasterFilters()
+    {
+      var googleId = User.Claims.First(f => f.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
+      // Will need to include Master Filter and Selected Filter Data
+      // EX - ...User.Include(i => i.AccountsCache).ThenInclude(t => t.FiltersCache)Include(MASTER FILTER INFO).ThenInclude(SELECTED FILTER INFO).FirstOrDefaultAsync(...
+      var user = await context.User.Include(i => i.AccountsCache).ThenInclude(t => t.FiltersCache).Include(m => m.MasterFilters).ThenInclude(s => s.SelectedFilter).FirstOrDefaultAsync(u => u.GoogleId == googleId);
+
+      if (user == null)
       {
-        HttpClientInitializer = cred
-      });
-
-      var filters = await service.Management.Filters.List(accountId).ExecuteAsync();
-
-      return filters.Items.ToList();
+        return BadRequest();
+      }
+      else
+      {
+        return Ok(user);
+      }
     }
   }
 }
-

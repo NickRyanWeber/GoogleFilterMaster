@@ -35,12 +35,11 @@ namespace GoogleFilterMaster.Controllers
 
     [HttpGet]
     [Authorize]
-    // [GoogleScopedAuthorize(AnalyticsService.ScopeConstants.AnalyticsEdit, AnalyticsService.ScopeConstants.Analytics)]
     public async Task<ActionResult> GetMasterFilters()
     {
-      // var GoogleId = User.GoogleId.First().Value;
       var googleId = User.Claims.First(f => f.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
-
+      // Will need to include Master Filter and Selected Filter Data
+      // EX - ...User.Include(i => i.AccountsCache).ThenInclude(t => t.FiltersCache)Include(MASTER FILTER INFO).ThenInclude(SELECTED FILTER INFO).FirstOrDefaultAsync(...
       var user = await context.User.Include(i => i.AccountsCache).ThenInclude(t => t.FiltersCache).FirstOrDefaultAsync(u => u.GoogleId == googleId);
 
       if (user == null)
