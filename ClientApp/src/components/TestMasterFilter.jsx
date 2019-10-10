@@ -18,6 +18,8 @@ const TestMasterFilter = props => {
     })
   )
   const [cachedFilters, setCachedFilters] = useState([])
+  const [newSelectedAccount, setNewSelectedAccount] = useState('')
+  const [newSelectedFilter, setNewSelectedFilter] = useState('')
 
   const createCachedFilters = () => {
     let _cachedFilters = []
@@ -129,7 +131,11 @@ const TestMasterFilter = props => {
             })}
           </ul>
           {/* <div className="input-field"> */}
-          <select className="browser-default" name="accounts">
+          <select
+            className="browser-default"
+            name="accounts"
+            onChange={e => setNewSelectedAccount(e.target.value)}
+          >
             <option value="" disabled selected>
               Choose an account
             </option>
@@ -144,11 +150,13 @@ const TestMasterFilter = props => {
             <option value="" disabled selected>
               Choose a filter
             </option>
-            {cachedFilters.map((filter, i) => {
-              return (
-                <option value={filter.filterName}>{filter.filterName}</option>
-              )
-            })}
+            {cachedFilters
+              .filter(filter => filter.accountName !== newSelectedAccount)
+              .map((filter, i) => {
+                return (
+                  <option value={filter.filterName}>{filter.filterName}</option>
+                )
+              })}
           </select>
           <label for="filters">Filter</label>
           {/* </div> */}

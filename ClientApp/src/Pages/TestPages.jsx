@@ -20,7 +20,7 @@ const TestPages = () => {
 
   return masterFilters === null ? (
     <>
-      <h1>Data is loading</h1>
+      <h1>Loading...</h1>
     </>
   ) : (
     <>
