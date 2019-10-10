@@ -6,7 +6,15 @@
     "token_uri": "https://oauth2.googleapis.com/token",
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
     "client_secret": "Dtnf_1dIWinIMmDKu6w-UzpR",
-    "redirect_uris": ["https://localhost:5001/app"],
-    "javascript_origins": ["https://localhost:5001"]
+    "redirect_uris": [
+      "https://localhost:5001/app",
+      "https://localhost:5001/signin-oidc",
+      "https://google-filter-master.herokuapp.com/signin-oidc",
+      "https://google-filter-master.herokuapp.com/signin-oidc/app"
+    ],
+    "javascript_origins": [
+      "https://localhost:5001",
+      "https://google-filter-master.herokuapp.com"
+    ]
   }
 }

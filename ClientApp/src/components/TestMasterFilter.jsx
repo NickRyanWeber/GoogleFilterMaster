@@ -4,9 +4,42 @@ import M from 'materialize-css'
 import NewFilter from './NewFilter'
 
 const TestMasterFilter = props => {
+  const [name, setName] = useState(props.data.name)
+  const [displayName, setDisplayName] = useState(props.data.name)
+  const [value, setValue] = useState(props.data.filterValue)
+  const [displayValue, setDisplayValue] = useState(props.data.filterValue)
+  const [filters, setFilters] = useState(props.data.selectedFilter)
+  const [displayFilters, setDisplayFilters] = useState(
+    props.data.selectedFilter
+  )
+  const [cachedAccounts, setCachedAccounts] = useState(props.data.accountsCache)
+
+  const removeSelectedFilter = index => {
+    setDisplayFilters(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const cancelChanges = () => {
+    console.log('cancel')
+    setDisplayName(name)
+    setDisplayValue(value)
+    setDisplayFilters(filters)
+  }
+
+  const saveChanges = () => {
+    console.log('save')
+    setName(displayName)
+    setValue(displayValue)
+    setFilters(displayFilters)
+    console.log('api call')
+  }
+
   useEffect(() => {
     M.AutoInit()
   }, [])
+
+  // useEffect(() => {
+
+  // }, [masterFilterSelectedFilters])
 
   return (
     <>
@@ -15,12 +48,12 @@ const TestMasterFilter = props => {
           <a href={`#modal${props.data.id}`} className="modal-trigger">
             <section className="card-content">
               <div className="section">
-                <h6 className="truncate">{props.data.name}</h6>
+                <h6 className="truncate">{displayName}</h6>
                 <div className="divider"></div>
               </div>
               <div className="section">
-                <p>Value - {props.data.filterValue}</p>
-                <p>{props.data.selectedFilter.length} filters</p>
+                <p>Value - {displayValue}</p>
+                <p>{displayFilters.length} filters</p>
               </div>
             </section>
           </a>
@@ -37,7 +70,8 @@ const TestMasterFilter = props => {
                   id="filter_name"
                   type="text"
                   className="validate"
-                  value={props.data.name}
+                  value={displayName}
+                  onChange={e => setDisplayName(e.target.value)}
                 />
                 <label htmlFor="filter_name">Filter Name</label>
               </div>
@@ -46,31 +80,61 @@ const TestMasterFilter = props => {
                   id="filter_value"
                   type="text"
                   className="validate"
-                  value={props.data.filterValue}
+                  value={displayValue}
+                  onChange={e => setDisplayValue(e.target.value)}
                 />
                 <label htmlFor="filter_value">Filter Value</label>
               </div>
             </div>
             <div className="col l4 filter-count right">
               <br />
-              <h2 className="center">{props.data.selectedFilter.length}</h2>
+              <h2 className="center">{displayFilters.length}</h2>
               <p className="center">Filter Count</p>
             </div>
           </div>
           <ul className="collection">
-            {props.data.selectedFilter.map((filter, i) => {
+            {displayFilters.map((filter, i) => {
               return (
                 <li key={i} className="collection-item">
                   <div>
                     {filter.googleAccountName} > {filter.googleFilterName}
-                    <a href="#!" className="secondary-content">
-                      <i className="material-icons">remove_circle_outline</i>
-                    </a>
+                    <i
+                      className="material-icons secondary-content"
+                      onClick={() => removeSelectedFilter(i)}
+                    >
+                      remove_circle_outline
+                    </i>
                   </div>
                 </li>
               )
             })}
           </ul>
+          <div className="row valign-wrapper">
+            <div className="input-field col s5">
+              <select>
+                <option value="" disabled selected>
+                  Choose your option
+                </option>
+                {}
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+              </select>
+              <label>Account</label>
+            </div>
+            <div className="input-field col s5">
+              <select>
+                <option value="" disabled selected>
+                  Choose your option
+                </option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+              </select>
+              <label>Account2</label>
+            </div>
+            <p className="btn-small col">Add</p>
+          </div>
         </div>
         <div className="modal-footer">
           <a
@@ -79,12 +143,22 @@ const TestMasterFilter = props => {
           >
             Add New Filter
           </a>
-          <a
-            href="#!"
+          <p
             className="modal-close waves-effect waves-green btn-flat"
+            onClick={() => {
+              cancelChanges()
+            }}
+          >
+            Cancel
+          </p>
+          <p
+            className="modal-close waves-effect waves-green btn-flat"
+            onClick={() => {
+              saveChanges()
+            }}
           >
             Save
-          </a>
+          </p>
         </div>
       </div>
       <div
