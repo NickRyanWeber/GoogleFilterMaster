@@ -129,7 +129,6 @@ const TestMasterFilter = props => {
             })}
           </ul>
           {/* <div className="input-field"> */}
-          <label for="accounts">Account</label>
           <select className="browser-default" name="accounts">
             <option value="" disabled selected>
               Choose an account
@@ -138,9 +137,9 @@ const TestMasterFilter = props => {
               return <option value={account}>{account}</option>
             })}
           </select>
+          <label for="accounts">Account</label>
           {/* </div> */}
           {/* <div className="input-field"> */}
-          <label for="filters">Filter</label>
           <select className="browser-default" name="filters">
             <option value="" disabled selected>
               Choose a filter
@@ -151,6 +150,7 @@ const TestMasterFilter = props => {
               )
             })}
           </select>
+          <label for="filters">Filter</label>
           {/* </div> */}
           <p className="btn">Add</p>
         </div>
