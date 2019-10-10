@@ -39,7 +39,13 @@ const TestPages = () => {
       <main className="">
         <section className="row">
           {masterFilters.masterFilters.map((masterFilterData, i) => {
-            return <TestMasterFilter key={i} data={masterFilterData} />
+            return (
+              <TestMasterFilter
+                key={i}
+                data={masterFilterData}
+                cache={masterFilters.accountsCache}
+              />
+            )
           })}
         </section>
       </main>

@@ -12,7 +12,25 @@ const TestMasterFilter = props => {
   const [displayFilters, setDisplayFilters] = useState(
     props.data.selectedFilter
   )
-  const [cachedAccounts, setCachedAccounts] = useState(props.data.accountsCache)
+  const [cachedAccounts, setCachedAccounts] = useState(
+    props.cache.map(account => {
+      return account.name
+    })
+  )
+  const [cachedFilters, setCachedFilters] = useState([])
+
+  const createCachedFilters = () => {
+    let _cachedFilters = []
+    props.cache.forEach(account => {
+      account.filtersCache.map(filter => {
+        _cachedFilters.push({
+          accountName: account.name,
+          filterName: filter.name
+        })
+      })
+    })
+    setCachedFilters(_cachedFilters)
+  }
 
   const removeSelectedFilter = index => {
     setDisplayFilters(prev => prev.filter((_, i) => i !== index))
@@ -35,6 +53,7 @@ const TestMasterFilter = props => {
 
   useEffect(() => {
     M.AutoInit()
+    createCachedFilters()
   }, [])
 
   // useEffect(() => {
@@ -109,32 +128,31 @@ const TestMasterFilter = props => {
               )
             })}
           </ul>
-          <div className="row valign-wrapper">
-            <div className="input-field col s5">
-              <select>
-                <option value="" disabled selected>
-                  Choose your option
-                </option>
-                {}
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
-              </select>
-              <label>Account</label>
-            </div>
-            <div className="input-field col s5">
-              <select>
-                <option value="" disabled selected>
-                  Choose your option
-                </option>
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
-              </select>
-              <label>Account2</label>
-            </div>
-            <p className="btn-small col">Add</p>
-          </div>
+          {/* <div className="input-field"> */}
+          <label for="accounts">Account</label>
+          <select className="browser-default" name="accounts">
+            <option value="" disabled selected>
+              Choose an account
+            </option>
+            {cachedAccounts.map((account, i) => {
+              return <option value={account}>{account}</option>
+            })}
+          </select>
+          {/* </div> */}
+          {/* <div className="input-field"> */}
+          <label for="filters">Filter</label>
+          <select className="browser-default" name="filters">
+            <option value="" disabled selected>
+              Choose a filter
+            </option>
+            {cachedFilters.map((filter, i) => {
+              return (
+                <option value={filter.filterName}>{filter.filterName}</option>
+              )
+            })}
+          </select>
+          {/* </div> */}
+          <p className="btn">Add</p>
         </div>
         <div className="modal-footer">
           <a
