@@ -15,6 +15,7 @@ namespace googlefiltermaster.Models
     public string FamilyName { get; set; }
     public string Picture { get; set; }
     public string Locale { get; set; }
+    public string Token { get; set; }
     public List<MasterFilter> MasterFilters { get; set; } = new List<MasterFilter>();
     public List<AccountsCache> AccountsCache { get; set; } = new List<AccountsCache>();
 
