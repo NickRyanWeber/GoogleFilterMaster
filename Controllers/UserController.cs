@@ -46,8 +46,9 @@ namespace GoogleFilterMaster.Controllers
       {
         user = new User(data);
         await context.User.AddAsync(user);
-        await context.SaveChangesAsync();
       }
+      user.Token = accessToken;
+      await context.SaveChangesAsync();
 
       // clear the "cache"
       // MATCHING USER ID && ACCOUNT ID

@@ -51,6 +51,20 @@ namespace GoogleFilterMaster.Controllers
         return Ok(user);
       }
     }
+
+    [HttpPut]
+    public async Task<ActionResult> UpdateFilters()
+    {
+      // Update Database
+      // Name
+      // Value
+      // Selected Filters
+      // remove ones that were deleted
+      // add ones that have been added
+      // Update Google with API
+      // get filter from cache??? 
+      // Take value and push to google's API
+    }
   }
 }
 

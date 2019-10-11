@@ -9,9 +9,9 @@ const TestMasterFilter = props => {
   const [value, setValue] = useState(props.data.filterValue)
   const [displayValue, setDisplayValue] = useState(props.data.filterValue)
   const [filters, setFilters] = useState(props.data.selectedFilter)
-  const [displayFilters, setDisplayFilters] = useState(
-    props.data.selectedFilter
-  )
+  const [displayFilters, setDisplayFilters] = useState([
+    ...props.data.selectedFilter
+  ])
   const [cachedAccounts, setCachedAccounts] = useState(props.cache)
   const [cachedFilters, setCachedFilters] = useState([])
   const [newSelectedAccount, setNewSelectedAccount] = useState('')
@@ -24,7 +24,8 @@ const TestMasterFilter = props => {
         _cachedFilters.push({
           accountId: account.googleAccountId,
           accountName: account.name,
-          filterName: filter.name
+          filterName: filter.name,
+          filterId: filter.googleFilterId
         })
       })
     })
@@ -33,6 +34,19 @@ const TestMasterFilter = props => {
 
   const removeSelectedFilter = index => {
     setDisplayFilters(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const addFilter = () => {
+    setDisplayFilters(prev => {
+      prev.push({
+        googleAccountId: newSelectedAccount.googleID,
+        googleAccountName: newSelectedAccount.googleName,
+        googleFilterId: newSelectedFilter.filterId,
+        googleFilterName: newSelectedFilter.filterName,
+        masterFilterId: props.data.id
+      })
+      return [...prev]
+    })
   }
 
   const cancelChanges = () => {
@@ -53,11 +67,8 @@ const TestMasterFilter = props => {
   useEffect(() => {
     M.AutoInit()
     createCachedFilters()
+    console.log('filter', props)
   }, [])
-
-  // useEffect(() => {
-
-  // }, [masterFilterSelectedFilters])
 
   return (
     <>
@@ -112,6 +123,7 @@ const TestMasterFilter = props => {
           </div>
           <ul className="collection">
             {displayFilters.map((filter, i) => {
+              console.log({ filter, i })
               return (
                 <li key={i} className="collection-item">
                   <div>
@@ -131,7 +143,14 @@ const TestMasterFilter = props => {
           <select
             className="browser-default"
             name="accounts"
-            onChange={e => setNewSelectedAccount(e.target.value)}
+            onChange={e => {
+              setNewSelectedAccount({
+                googleID: e.target.value,
+                googleName: e.target[e.target.selectedIndex].textContent
+              })
+              setNewSelectedFilter('')
+              console.log(e.target[e.target.selectedIndex].textContent)
+            }}
           >
             <option value="" disabled selected>
               Choose an account
@@ -148,22 +167,36 @@ const TestMasterFilter = props => {
           <select
             className="browser-default"
             name="filters"
-            onChange={e => setNewSelectedFilter(e.target.value)}
+            onChange={e => {
+              setNewSelectedFilter({
+                filterId: e.target.value,
+                filterName: e.target[e.target.selectedIndex].textContent
+              })
+            }}
           >
             <option value="" disabled selected>
               Choose a filter
             </option>
             {cachedFilters
-              .filter(filter => filter.accountId === newSelectedAccount)
+              .filter(
+                filter => filter.accountId === newSelectedAccount.googleID
+              )
               .map((filter, i) => {
                 return (
-                  <option value={filter.filterName}>{filter.filterName}</option>
+                  <option value={filter.filterId}>{filter.filterName}</option>
                 )
               })}
           </select>
           <label for="filters">Filter</label>
           {/* </div> */}
-          <p className="btn">Add</p>
+          <p
+            className="btn"
+            onClick={() => {
+              addFilter()
+            }}
+          >
+            Add
+          </p>
         </div>
         <div className="modal-footer">
           <a
