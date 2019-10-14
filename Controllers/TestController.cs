@@ -105,8 +105,8 @@ namespace GoogleFilterMaster.Controllers
           var postContent = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
 
           HttpResponseMessage putResponse = await postFilterClient.PutAsync(API, postContent);
+          await context.SaveChangesAsync();
         }
-        await context.SaveChangesAsync();
         return Ok(masterFilter);
       }
     }
