@@ -62,10 +62,10 @@ const TestMasterFilter = props => {
     setValue(displayValue)
     setFilters(displayFilters)
     const resp = await axios.put(`/api/test/${props.data.id}`, {
-      Name: name,
-      FilterValue: value,
+      Name: displayName,
+      FilterValue: displayValue,
       UserId: props.data.userId,
-      SelectedFilter: filters
+      SelectedFilter: displayFilters
     })
     console.log(resp)
   }
