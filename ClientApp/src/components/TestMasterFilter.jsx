@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import M from 'materialize-css'
 import NewFilter from './NewFilter'
+import axios from 'axios'
 
 const TestMasterFilter = props => {
   const [name, setName] = useState(props.data.name)
@@ -56,12 +57,17 @@ const TestMasterFilter = props => {
     setDisplayFilters(filters)
   }
 
-  const saveChanges = () => {
-    console.log('save')
+  const saveChanges = async () => {
     setName(displayName)
     setValue(displayValue)
     setFilters(displayFilters)
-    console.log('api call')
+    const resp = await axios.put(`/api/test/${props.data.id}`, {
+      Name: name,
+      FilterValue: value,
+      UserId: props.data.userId,
+      SelectedFilter: filters
+    })
+    console.log(resp)
   }
 
   useEffect(() => {

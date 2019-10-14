@@ -33,13 +33,22 @@ namespace GoogleFilterMaster.Controllers
         HttpClientInitializer = cred
       });
 
+      // var accessToken = await cred.UnderlyingCredential.GetAccessTokenForRequestAsync();
+      // WebRequest request = WebRequest.Create($"https://www.googleapis.com/oauth2/v1/userinfo?access_token={accessToken}");
+      // HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+      // Stream dataStream = response.GetResponseStream();
+      // StreamReader reader = new StreamReader(dataStream);
+      // string responseFromServer = reader.ReadToEnd();
+      // var data = JsonConvert.DeserializeObject<GoogleUser>(responseFromServer);
+
+      // cleaned up above a little bit
       var accessToken = await cred.UnderlyingCredential.GetAccessTokenForRequestAsync();
       WebRequest request = WebRequest.Create($"https://www.googleapis.com/oauth2/v1/userinfo?access_token={accessToken}");
       HttpWebResponse response = (HttpWebResponse)request.GetResponse();
       Stream dataStream = response.GetResponseStream();
       StreamReader reader = new StreamReader(dataStream);
-      string responseFromServer = reader.ReadToEnd();
-      var data = JsonConvert.DeserializeObject<GoogleUser>(responseFromServer);
+      var json = new JsonTextReader(reader);
+      var data = (new JsonSerializer()).Deserialize<GoogleUser>(json);
 
       var user = await context.User.FirstOrDefaultAsync(u => u.GoogleId == data.id);
       if (user == null)

@@ -52,18 +52,30 @@ namespace GoogleFilterMaster.Controllers
       }
     }
 
-    [HttpPut]
-    public async Task<ActionResult> UpdateFilters()
+    [HttpPut("{id}")]
+    public async Task<ActionResult> UpdateMasterFilter(int id, MasterFilter masterFilter)
     {
-      // Update Database
-      // Name
-      // Value
-      // Selected Filters
-      // remove ones that were deleted
-      // add ones that have been added
-      // Update Google with API
-      // get filter from cache??? 
-      // Take value and push to google's API
+      var foundFilter = context.MasterFilter.FirstOrDefault(m => m.Id == id);
+      if (foundFilter == null)
+      {
+        return NotFound();
+      }
+      else
+      {
+        // Update Database
+        // Name
+        var _foundFilter = foundFilter;
+        _foundFilter.Name = masterFilter.Name;
+        // Value
+        _foundFilter.FilterValue = masterFilter.FilterValue;
+        // context.Entry(foundFilter).State = _foundFilter;
+        // Delete All Selected Filters for the MasterFilter, and create new ones from the object
+
+        // Update Google with API
+        // get filter from cache??? 
+        // Take value and push to google's API
+        return Ok(masterFilter);
+      }
     }
   }
 }
