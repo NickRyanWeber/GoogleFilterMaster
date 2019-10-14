@@ -19,6 +19,7 @@ using googlefiltermaster.Models;
 using googlefiltermaster;
 using Microsoft.EntityFrameworkCore;
 using googlefiltermaster.ViewModels;
+using GoogleFilterMaster.Models;
 
 namespace GoogleFilterMaster.Controllers
 {
@@ -64,13 +65,20 @@ namespace GoogleFilterMaster.Controllers
       {
         // Update Database
         // Name
-        var _foundFilter = foundFilter;
-        _foundFilter.Name = masterFilter.Name;
+        foundFilter.Name = masterFilter.Name;
         // Value
-        _foundFilter.FilterValue = masterFilter.FilterValue;
-        // context.Entry(foundFilter).State = _foundFilter;
+        foundFilter.FilterValue = masterFilter.FilterValue;
+        await context.SaveChangesAsync();
         // Delete All Selected Filters for the MasterFilter, and create new ones from the object
-
+        var selectedFiltersToBeDeleted = context.SelectedFilter.Where(w => w.MasterFilterId == foundFilter.Id);
+        context.SelectedFilter.RemoveRange(selectedFiltersToBeDeleted);
+        await context.SaveChangesAsync();
+        foreach (var filter in masterFilter.SelectedFilter)
+        {
+          var _filter = new SelectedFilter { GoogleAccountId = filter.GoogleAccountId, GoogleFilterId = filter.GoogleFilterId, GoogleAccountName = filter.GoogleAccountName, GoogleFilterName = filter.GoogleFilterName, MasterFilterId = filter.MasterFilterId };
+          await context.SelectedFilter.AddAsync(_filter);
+        }
+        await context.SaveChangesAsync();
         // Update Google with API
         // get filter from cache??? 
         // Take value and push to google's API
