@@ -20,6 +20,8 @@ using googlefiltermaster;
 using Microsoft.EntityFrameworkCore;
 using googlefiltermaster.ViewModels;
 using GoogleFilterMaster.Models;
+using System.Net.Http;
+using System.Text;
 
 namespace GoogleFilterMaster.Controllers
 {
@@ -73,15 +75,38 @@ namespace GoogleFilterMaster.Controllers
         var selectedFiltersToBeDeleted = context.SelectedFilter.Where(w => w.MasterFilterId == foundFilter.Id);
         context.SelectedFilter.RemoveRange(selectedFiltersToBeDeleted);
         await context.SaveChangesAsync();
+        var user = context.User.FirstOrDefault(f => f.Id == masterFilter.UserId);
+        var accessToken = user.Token;
         foreach (var filter in masterFilter.SelectedFilter)
         {
+          // update database
           var _filter = new SelectedFilter { GoogleAccountId = filter.GoogleAccountId, GoogleFilterId = filter.GoogleFilterId, GoogleAccountName = filter.GoogleAccountName, GoogleFilterName = filter.GoogleFilterName, MasterFilterId = filter.MasterFilterId };
           await context.SelectedFilter.AddAsync(_filter);
+
+          // get filter object from Google
+          var accountId = filter.GoogleAccountId;
+          var filterId = filter.GoogleFilterId;
+          var API = $"https://www.googleapis.com/analytics/v3/management/accounts/{accountId}/filters/{filterId}";
+          HttpClient getFilterClient = new HttpClient();
+          getFilterClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+          getFilterClient.DefaultRequestHeaders.Add("Accept", "application/json");
+          HttpResponseMessage response = await getFilterClient.GetAsync(API);
+          var content = await response.Content.ReadAsStringAsync();
+          var data = JsonConvert.DeserializeObject<RootObject>(content);
+
+          // Update Filter Value
+          data.excludeDetails.expressionValue = masterFilter.FilterValue;
+
+          // Update Google
+          HttpClient postFilterClient = new HttpClient();
+          postFilterClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+          postFilterClient.DefaultRequestHeaders.Add("Accept", "application/json");
+          // postFilterClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
+          var postContent = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+
+          HttpResponseMessage putResponse = await postFilterClient.PutAsync(API, postContent);
         }
         await context.SaveChangesAsync();
-        // Update Google with API
-        // get filter from cache??? 
-        // Take value and push to google's API
         return Ok(masterFilter);
       }
     }
