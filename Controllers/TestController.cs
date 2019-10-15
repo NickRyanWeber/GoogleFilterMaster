@@ -90,6 +90,9 @@ namespace GoogleFilterMaster.Controllers
 
     //     foreach (var filter in selectedFilter)
     //     {
+    //selectedFilter.AsParallel().For(filter => {
+
+    // })
 
     //       // update database
     //       var _filter = new SelectedFilter

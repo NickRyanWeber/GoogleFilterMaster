@@ -93,6 +93,7 @@ const TestMasterFilter = props => {
 
   useEffect(() => {
     M.AutoInit()
+    M.updateTextFields()
     createCachedFilters()
     console.log('filter', props)
   }, [])
@@ -138,7 +139,7 @@ const TestMasterFilter = props => {
                 <input
                   id="filter_name"
                   type="text"
-                  className="validate"
+                  className="validate light"
                   value={displayName}
                   onChange={e => {
                     setDisplayName(e.target.value)
@@ -172,10 +173,10 @@ const TestMasterFilter = props => {
               console.log({ filter, i })
               return (
                 <li key={i} className="collection-item">
-                  <div>
+                  <div className="truncate">
                     {filter.googleAccountName} > {filter.googleFilterName}
                     <i
-                      className="material-icons secondary-content remove"
+                      className="material-icons secondary-content remove red-text"
                       onClick={() => removeSelectedFilter(i)}
                     >
                       remove_circle_outline
@@ -190,6 +191,7 @@ const TestMasterFilter = props => {
             <select
               className="browser-default"
               name="accounts"
+              defaultValue="no-value"
               onChange={e => {
                 setNewSelectedAccount({
                   googleID: e.target.value,
@@ -199,7 +201,7 @@ const TestMasterFilter = props => {
                 console.log(e.target[e.target.selectedIndex].textContent)
               }}
             >
-              <option value="" disabled selected>
+              <option value="no-value" disabled>
                 Choose an account
               </option>
               {cachedAccounts.map((account, i) => {
@@ -216,6 +218,7 @@ const TestMasterFilter = props => {
             <select
               className="browser-default"
               name="filters"
+              defaultValue="no-value"
               onChange={e => {
                 setNewSelectedFilter({
                   filterId: e.target.value,
@@ -223,7 +226,7 @@ const TestMasterFilter = props => {
                 })
               }}
             >
-              <option value="" disabled selected>
+              <option value="no-value" disabled>
                 Choose a filter
               </option>
               {cachedFilters
@@ -242,7 +245,7 @@ const TestMasterFilter = props => {
             {/* </div> */}
             <br></br>
             <p
-              className="btn"
+              className="btn light-blue darken-2"
               onClick={() => {
                 addFilter()
                 setShowNewFilter(false)
@@ -255,7 +258,7 @@ const TestMasterFilter = props => {
         </div>
         <div className="modal-footer">
           <a
-            className="modal-close waves-effect waves-green btn-flat modal-trigger"
+            className="modal-close waves-effect waves-red btn-flat modal-trigger"
             // href={`#delete-modal${props.data.id}`}
             onClick={() => {
               deleteFilter()
@@ -273,7 +276,7 @@ const TestMasterFilter = props => {
             New Filter
           </p>
           <p
-            className="modal-close waves-effect waves-green btn-flat"
+            className="modal-close waves-effect waves-orange btn-flat"
             onClick={() => {
               cancelChanges()
             }}
