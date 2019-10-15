@@ -59,11 +59,15 @@ namespace GoogleFilterMaster.Controllers
     public async Task<ActionResult> UpdateMasterFilter(int id, MasterFilter masterFilter)
     {
       var foundFilter = context.MasterFilter.FirstOrDefault(m => m.Id == id);
+      List<SelectedFilter> selectedFilter;
       if (foundFilter == null)
       {
+        selectedFilter = masterFilter.SelectedFilter;
+        masterFilter.SelectedFilter = null;
         context.MasterFilter.Add(masterFilter);
         await context.SaveChangesAsync();
         foundFilter = masterFilter;
+
       }
       else
       {
@@ -72,19 +76,30 @@ namespace GoogleFilterMaster.Controllers
         foundFilter.Name = masterFilter.Name;
         // Value
         foundFilter.FilterValue = masterFilter.FilterValue;
+        await context.SaveChangesAsync();
+        selectedFilter = foundFilter.SelectedFilter;
+        //   // Delete All Selected Filters for the MasterFilter, and create new ones from the object
+        var selectedFiltersToBeDeleted = context.SelectedFilter.Where(w => w.MasterFilterId == foundFilter.Id);
+        context.SelectedFilter.RemoveRange(selectedFiltersToBeDeleted);
+        await context.SaveChangesAsync();
+
       }
-      // Delete All Selected Filters for the MasterFilter, and create new ones from the object
-      var selectedFiltersToBeDeleted = context.SelectedFilter.Where(w => w.MasterFilterId == foundFilter.Id);
-      context.SelectedFilter.RemoveRange(selectedFiltersToBeDeleted);
-      await context.SaveChangesAsync();
       var user = context.User.FirstOrDefault(f => f.Id == masterFilter.UserId);
       var accessToken = user.Token;
       await context.SaveChangesAsync();
 
-      foreach (var filter in masterFilter.SelectedFilter.ToList())
+      foreach (var filter in selectedFilter)
       {
+
         // update database
-        var _filter = new SelectedFilter { GoogleAccountId = filter.GoogleAccountId, GoogleFilterId = filter.GoogleFilterId, GoogleAccountName = filter.GoogleAccountName, GoogleFilterName = filter.GoogleFilterName, MasterFilterId = filter.MasterFilterId };
+        var _filter = new SelectedFilter
+        {
+          GoogleAccountId = filter.GoogleAccountId,
+          GoogleFilterId = filter.GoogleFilterId,
+          GoogleAccountName = filter.GoogleAccountName,
+          GoogleFilterName = filter.GoogleFilterName,
+          MasterFilterId = foundFilter.Id
+        };
         await context.SelectedFilter.AddAsync(_filter);
         await context.SaveChangesAsync();
 
