@@ -142,7 +142,8 @@ namespace sdg_react_template.Controllers
       {
         return NotFound();
       }
-
+      var selectedFiltersToBeDeleted = _context.SelectedFilter.Where(w => w.MasterFilterId == masterFilter.Id);
+      _context.SelectedFilter.RemoveRange(selectedFiltersToBeDeleted);
       _context.MasterFilter.Remove(masterFilter);
       await _context.SaveChangesAsync();
 
