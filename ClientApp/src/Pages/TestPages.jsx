@@ -3,20 +3,30 @@ import React, { useState, useEffect } from 'react'
 import M from 'materialize-css'
 import TestMasterFilter from '../components/TestMasterFilter'
 import axios from 'axios'
+import { Redirect } from 'react-router-dom'
 
 const TestPages = () => {
   const [masterFilters, setMasterFilters] = useState(null)
   const [userId, setUserId] = useState(null)
+  const [needsToLeave, setNeedsToLeave] = useState(false)
 
   const fetchData = async () => {
-    const resp = await axios.get('/api/filter')
-    console.log(resp.data)
-    setMasterFilters(resp.data)
-    setUserId(resp.data.id)
-    M.AutoInit()
+    axios
+      .get('/api/filter')
+      .then(resp => {
+        console.log(resp.data)
+        setMasterFilters(resp.data)
+        setUserId(resp.data.id)
+      })
+      .catch(ex => {
+        console.log('thumped', ex)
+        // setNeedsToLeave(true)
+        window.location.replace('/user/login')
+      })
   }
 
   useEffect(() => {
+    M.AutoInit()
     fetchData()
   }, [])
 
@@ -34,9 +44,7 @@ const TestPages = () => {
   }
 
   return masterFilters === null ? (
-    <>
-      <h1>Loading...</h1>
-    </>
+    <>{needsToLeave ? <Redirect to={'/user/login'} /> : <h1>Loading...</h1>}</>
   ) : (
     <>
       <nav className="nav-wrapper">
@@ -59,6 +67,7 @@ const TestPages = () => {
                 key={i}
                 data={masterFilterData}
                 cache={masterFilters.accountsCache}
+                test={i}
               />
             )
           })}

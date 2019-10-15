@@ -36,100 +36,101 @@ namespace GoogleFilterMaster.Controllers
       this.context = _context;
     }
 
-    [HttpGet]
-    [Authorize]
-    public async Task<ActionResult> GetMasterFilters()
-    {
-      var googleId = User.Claims.First(f => f.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
-      // Will need to include Master Filter and Selected Filter Data
-      // EX - ...User.Include(i => i.AccountsCache).ThenInclude(t => t.FiltersCache)Include(MASTER FILTER INFO).ThenInclude(SELECTED FILTER INFO).FirstOrDefaultAsync(...
-      var user = await context.User.Include(i => i.AccountsCache).ThenInclude(t => t.FiltersCache).FirstOrDefaultAsync(u => u.GoogleId == googleId);
+    // [HttpGet]
+    // [Authorize]
+    // public async Task<ActionResult> GetMasterFilters()
+    // {
+    //   var googleId = User.Claims.First(f => f.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
+    //   // Will need to include Master Filter and Selected Filter Data
+    //   // EX - ...User.Include(i => i.AccountsCache).ThenInclude(t => t.FiltersCache)Include(MASTER FILTER INFO).ThenInclude(SELECTED FILTER INFO).FirstOrDefaultAsync(...
+    //   var user = await context.User.Include(i => i.AccountsCache).ThenInclude(t => t.FiltersCache).FirstOrDefaultAsync(u => u.GoogleId == googleId);
 
-      if (user == null)
-      {
-        return BadRequest();
-      }
-      else
-      {
-        return Ok(user);
-      }
-    }
+    //   if (user == null)
+    //   {
+    //     return BadRequest();
+    //   }
+    //   else
+    //   {
+    //     return Ok(user);
+    //   }
+    // }
 
-    [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateMasterFilter(int id, MasterFilter masterFilter)
-    {
-      var foundFilter = context.MasterFilter.FirstOrDefault(m => m.Id == id);
-      List<SelectedFilter> selectedFilter;
-      if (foundFilter == null)
-      {
-        selectedFilter = masterFilter.SelectedFilter;
-        masterFilter.SelectedFilter = null;
-        context.MasterFilter.Add(masterFilter);
-        await context.SaveChangesAsync();
-        foundFilter = masterFilter;
+    //   [HttpPut("{id}")]
+    //   public async Task<ActionResult> UpdateMasterFilter(int id, MasterFilter masterFilter)
+    //   {
+    //     var foundFilter = context.MasterFilter.FirstOrDefault(m => m.Id == id);
+    //     List<SelectedFilter> selectedFilter;
+    //     if (foundFilter == null)
+    //     {
+    //       selectedFilter = masterFilter.SelectedFilter;
+    //       masterFilter.SelectedFilter = null;
+    //       context.MasterFilter.Add(masterFilter);
+    //       await context.SaveChangesAsync();
+    //       foundFilter = masterFilter;
 
-      }
-      else
-      {
-        // Update Database
-        // Name
-        foundFilter.Name = masterFilter.Name;
-        // Value
-        foundFilter.FilterValue = masterFilter.FilterValue;
-        await context.SaveChangesAsync();
-        selectedFilter = foundFilter.SelectedFilter;
-        //   // Delete All Selected Filters for the MasterFilter, and create new ones from the object
-        var selectedFiltersToBeDeleted = context.SelectedFilter.Where(w => w.MasterFilterId == foundFilter.Id);
-        context.SelectedFilter.RemoveRange(selectedFiltersToBeDeleted);
-        await context.SaveChangesAsync();
+    //     }
+    //     else
+    //     {
+    //       // Update Database
+    //       // Name
+    //       foundFilter.Name = masterFilter.Name;
+    //       // Value
+    //       foundFilter.FilterValue = masterFilter.FilterValue;
+    //       await context.SaveChangesAsync();
+    //       selectedFilter = foundFilter.SelectedFilter;
+    //       //   // Delete All Selected Filters for the MasterFilter, and create new ones from the object
+    //       var selectedFiltersToBeDeleted = context.SelectedFilter.Where(w => w.MasterFilterId == foundFilter.Id);
+    //       context.SelectedFilter.RemoveRange(selectedFiltersToBeDeleted);
+    //       await context.SaveChangesAsync();
 
-      }
-      var user = context.User.FirstOrDefault(f => f.Id == masterFilter.UserId);
-      var accessToken = user.Token;
-      await context.SaveChangesAsync();
+    //     }
+    //     var user = context.User.FirstOrDefault(f => f.Id == masterFilter.UserId);
+    //     var accessToken = user.Token;
+    //     await context.SaveChangesAsync();
 
-      foreach (var filter in selectedFilter)
-      {
+    //     foreach (var filter in selectedFilter)
+    //     {
 
-        // update database
-        var _filter = new SelectedFilter
-        {
-          GoogleAccountId = filter.GoogleAccountId,
-          GoogleFilterId = filter.GoogleFilterId,
-          GoogleAccountName = filter.GoogleAccountName,
-          GoogleFilterName = filter.GoogleFilterName,
-          MasterFilterId = foundFilter.Id
-        };
-        await context.SelectedFilter.AddAsync(_filter);
-        await context.SaveChangesAsync();
+    //       // update database
+    //       var _filter = new SelectedFilter
+    //       {
+    //         GoogleAccountId = filter.GoogleAccountId,
+    //         GoogleFilterId = filter.GoogleFilterId,
+    //         GoogleAccountName = filter.GoogleAccountName,
+    //         GoogleFilterName = filter.GoogleFilterName,
+    //         MasterFilterId = foundFilter.Id
+    //       };
+    //       await context.SelectedFilter.AddAsync(_filter);
+    //       await context.SaveChangesAsync();
 
-        // get filter object from Google
-        var accountId = filter.GoogleAccountId;
-        var filterId = filter.GoogleFilterId;
-        var API = $"https://www.googleapis.com/analytics/v3/management/accounts/{accountId}/filters/{filterId}";
-        HttpClient getFilterClient = new HttpClient();
-        getFilterClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
-        getFilterClient.DefaultRequestHeaders.Add("Accept", "application/json");
-        HttpResponseMessage response = await getFilterClient.GetAsync(API);
-        var content = await response.Content.ReadAsStringAsync();
-        var data = JsonConvert.DeserializeObject<RootObject>(content);
+    //       // get filter object from Google
+    //       var accountId = filter.GoogleAccountId;
+    //       var filterId = filter.GoogleFilterId;
+    //       var API = $"https://www.googleapis.com/analytics/v3/management/accounts/{accountId}/filters/{filterId}";
+    //       HttpClient getFilterClient = new HttpClient();
+    //       getFilterClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+    //       getFilterClient.DefaultRequestHeaders.Add("Accept", "application/json");
+    //       HttpResponseMessage response = await getFilterClient.GetAsync(API);
+    //       var content = await response.Content.ReadAsStringAsync();
+    //       var data = JsonConvert.DeserializeObject<RootObject>(content);
 
-        // Update Filter Value
-        data.excludeDetails.expressionValue = masterFilter.FilterValue;
+    //       // Update Filter Value
+    //       data.excludeDetails.expressionValue = masterFilter.FilterValue;
 
-        // Update Google
-        HttpClient postFilterClient = new HttpClient();
-        postFilterClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
-        postFilterClient.DefaultRequestHeaders.Add("Accept", "application/json");
-        // postFilterClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
-        var postContent = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+    //       // Update Google
+    //       HttpClient postFilterClient = new HttpClient();
+    //       postFilterClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+    //       postFilterClient.DefaultRequestHeaders.Add("Accept", "application/json");
+    //       // postFilterClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
+    //       var postContent = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
 
-        HttpResponseMessage putResponse = await postFilterClient.PutAsync(API, postContent);
-      }
-      return Ok(masterFilter);
-    }
+    //       HttpResponseMessage putResponse = await postFilterClient.PutAsync(API, postContent);
+    //     }
+    //     return Ok(masterFilter);
+    //   }
+    // }
+
   }
-
 }
 
 

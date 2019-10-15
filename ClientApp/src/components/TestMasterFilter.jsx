@@ -67,7 +67,7 @@ const TestMasterFilter = props => {
     setFilters(displayFilters)
 
     // if (props.data.id) {
-    const resp = await axios.put(`/api/test/${props.data.id || 0}`, {
+    const resp = await axios.put(`/api/masterFilter/${props.data.id || 0}`, {
       Name: displayName,
       FilterValue: displayValue,
       UserId: props.data.userId,
@@ -113,7 +113,7 @@ const TestMasterFilter = props => {
     <>
       <main className="col l3 m4 s6">
         <section className="card hoverable">
-          <a href={`#modal${props.data.id}`} className="modal-trigger">
+          <a href={`#modal${props.test}`} className="modal-trigger">
             <section className="card-content">
               <div className="section">
                 <h6 className="truncate">{displayName}</h6>
@@ -130,7 +130,7 @@ const TestMasterFilter = props => {
       </main>
       {/* View Master Filter Modal */}
       {/* turn into a component, need to figure out how to open component modal */}
-      <div id={`modal${props.data.id}`} className="modal modal-fixed-footer">
+      <div id={`modal${props.test}`} className="modal modal-fixed-footer">
         <div className="modal-content">
           <div className="row">
             <div className="col l7 filter-info">

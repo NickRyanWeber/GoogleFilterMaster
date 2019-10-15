@@ -48,33 +48,79 @@ namespace sdg_react_template.Controllers
 
     // PUT: api/MasterFilter/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutMasterFilter(int id, MasterFilter masterFilter)
+    public async Task<ActionResult> UpdateMasterFilter(int id, MasterFilter masterFilter)
     {
-      if (id != masterFilter.Id)
+      var foundFilter = _context.MasterFilter.FirstOrDefault(m => m.Id == id);
+      List<SelectedFilter> selectedFilter;
+      if (foundFilter == null)
       {
-        return BadRequest();
-      }
-
-      _context.Entry(masterFilter).State = EntityState.Modified;
-
-      try
-      {
+        selectedFilter = masterFilter.SelectedFilter;
+        masterFilter.SelectedFilter = null;
+        _context.MasterFilter.Add(masterFilter);
         await _context.SaveChangesAsync();
-      }
-      catch (DbUpdateConcurrencyException)
-      {
-        if (!MasterFilterExists(id))
-        {
-          return NotFound();
-        }
-        else
-        {
-          throw;
-        }
-      }
+        foundFilter = masterFilter;
 
-      return NoContent();
+      }
+      else
+      {
+        // Update Database
+        // Name
+        foundFilter.Name = masterFilter.Name;
+        // Value
+        foundFilter.FilterValue = masterFilter.FilterValue;
+        await _context.SaveChangesAsync();
+        selectedFilter = foundFilter.SelectedFilter;
+        //   // Delete All Selected Filters for the MasterFilter, and create new ones from the object
+        var selectedFiltersToBeDeleted = _context.SelectedFilter.Where(w => w.MasterFilterId == foundFilter.Id);
+        _context.SelectedFilter.RemoveRange(selectedFiltersToBeDeleted);
+        await _context.SaveChangesAsync();
+
+      }
+      var user = _context.User.FirstOrDefault(f => f.Id == masterFilter.UserId);
+      var accessToken = user.Token;
+      await _context.SaveChangesAsync();
+
+      foreach (var filter in selectedFilter)
+      {
+
+        // update database
+        var _filter = new SelectedFilter
+        {
+          GoogleAccountId = filter.GoogleAccountId,
+          GoogleFilterId = filter.GoogleFilterId,
+          GoogleAccountName = filter.GoogleAccountName,
+          GoogleFilterName = filter.GoogleFilterName,
+          MasterFilterId = foundFilter.Id
+        };
+        await _context.SelectedFilter.AddAsync(_filter);
+        await _context.SaveChangesAsync();
+
+        // get filter object from Google
+        var accountId = filter.GoogleAccountId;
+        var filterId = filter.GoogleFilterId;
+        var API = $"https://www.googleapis.com/analytics/v3/management/accounts/{accountId}/filters/{filterId}";
+        HttpClient getFilterClient = new HttpClient();
+        getFilterClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+        getFilterClient.DefaultRequestHeaders.Add("Accept", "application/json");
+        HttpResponseMessage response = await getFilterClient.GetAsync(API);
+        var content = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<RootObject>(content);
+
+        // Update Filter Value
+        data.excludeDetails.expressionValue = masterFilter.FilterValue;
+
+        // Update Google
+        HttpClient postFilterClient = new HttpClient();
+        postFilterClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+        postFilterClient.DefaultRequestHeaders.Add("Accept", "application/json");
+        // postFilterClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
+        var postContent = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+
+        HttpResponseMessage putResponse = await postFilterClient.PutAsync(API, postContent);
+      }
+      return Ok(masterFilter);
     }
+
 
     // POST: api/MasterFilter
     [HttpPost]
