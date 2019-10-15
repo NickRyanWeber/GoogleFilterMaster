@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import TestMasterFilter from '../components/TestMasterFilter'
+
 import M from 'materialize-css'
+import TestMasterFilter from '../components/TestMasterFilter'
+import axios from 'axios'
 
 const TestPages = () => {
   const [masterFilters, setMasterFilters] = useState(null)

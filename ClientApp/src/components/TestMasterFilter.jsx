@@ -80,7 +80,7 @@ const TestMasterFilter = props => {
   return (
     <>
       <main className="col l3 m4 s6">
-        <section className="card">
+        <section className="card hoverable">
           <a href={`#modal${props.data.id}`} className="modal-trigger">
             <section className="card-content">
               <div className="section">
@@ -88,8 +88,8 @@ const TestMasterFilter = props => {
                 <div className="divider"></div>
               </div>
               <div className="section">
-                <p>Value - {displayValue}</p>
-                <p>{displayFilters.length} filters</p>
+                <p className="truncate">Value - {displayValue}</p>
+                <p className="truncate">{displayFilters.length} filters</p>
               </div>
             </section>
           </a>
