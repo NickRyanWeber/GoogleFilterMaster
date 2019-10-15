@@ -10,7 +10,11 @@ const HomePage = () => {
   return (
     <>
       <main className="container">
-        <h1>Home Page</h1>
+        <h1>Analytics Filter Master</h1>
+        <p>
+          The tool for organizing your Google Analytics Filters across Accounts,
+          Properties, and Views.
+        </p>
         <a href="/user/login">Get Started</a>
       </main>
     </>

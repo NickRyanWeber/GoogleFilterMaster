@@ -18,6 +18,7 @@ const TestMasterFilter = props => {
   const [newSelectedAccount, setNewSelectedAccount] = useState('')
   const [newSelectedFilter, setNewSelectedFilter] = useState('')
   const [showNewFilter, setShowNewFilter] = useState(false)
+  const [saved, setSaved] = useState(true)
 
   const createCachedFilters = () => {
     let _cachedFilters = []
@@ -55,7 +56,8 @@ const TestMasterFilter = props => {
     console.log('cancel')
     setDisplayName(name)
     setDisplayValue(value)
-    setDisplayFilters(filters)
+    setDisplayFilters([...filters])
+    setSaved(true)
   }
 
   const saveChanges = async () => {
@@ -90,6 +92,11 @@ const TestMasterFilter = props => {
               <div className="section">
                 <p className="truncate">Value - {displayValue}</p>
                 <p className="truncate">{displayFilters.length} filters</p>
+                {saved ? (
+                  <p className="truncate green-text text-lighten-2">saved</p>
+                ) : (
+                  <p className="truncate amber-text text-darken-3">unsaved</p>
+                )}
               </div>
             </section>
           </a>
@@ -107,7 +114,10 @@ const TestMasterFilter = props => {
                   type="text"
                   className="validate"
                   value={displayName}
-                  onChange={e => setDisplayName(e.target.value)}
+                  onChange={e => {
+                    setDisplayName(e.target.value)
+                    setSaved(false)
+                  }}
                 />
                 <label htmlFor="filter_name">Filter Name</label>
               </div>
@@ -117,7 +127,10 @@ const TestMasterFilter = props => {
                   type="text"
                   className="validate"
                   value={displayValue}
-                  onChange={e => setDisplayValue(e.target.value)}
+                  onChange={e => {
+                    setDisplayValue(e.target.value)
+                    setSaved(false)
+                  }}
                 />
                 <label htmlFor="filter_value">Filter Value</label>
               </div>
@@ -165,13 +178,13 @@ const TestMasterFilter = props => {
               </option>
               {cachedAccounts.map((account, i) => {
                 return (
-                  <option value={account.googleAccountId}>
+                  <option value={account.googleAccountId} key={i}>
                     {account.name}
                   </option>
                 )
               })}
             </select>
-            <label for="accounts">Account</label>
+            <label htmlFor="accounts">Account</label>
             {/* </div> */}
             {/* <div className="input-field"> */}
             <select
@@ -193,11 +206,13 @@ const TestMasterFilter = props => {
                 )
                 .map((filter, i) => {
                   return (
-                    <option value={filter.filterId}>{filter.filterName}</option>
+                    <option value={filter.filterId} key={i}>
+                      {filter.filterName}
+                    </option>
                   )
                 })}
             </select>
-            <label for="filters">Filter</label>
+            <label htmlFor="filters">Filter</label>
             {/* </div> */}
             <br></br>
             <p
@@ -205,6 +220,7 @@ const TestMasterFilter = props => {
               onClick={() => {
                 addFilter()
                 setShowNewFilter(false)
+                setSaved(false)
               }}
             >
               Add
@@ -233,6 +249,7 @@ const TestMasterFilter = props => {
             className="modal-close waves-effect waves-green btn-flat"
             onClick={() => {
               saveChanges()
+              setSaved(true)
             }}
           >
             Save
