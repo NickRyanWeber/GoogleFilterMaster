@@ -25,9 +25,11 @@ const TestPages = () => {
       prev.masterFilters.push({
         name: '',
         filterValue: '',
-        userId: userId
+        userId: userId,
+        selectedFilter: []
       })
-      return prev
+      console.log({ ...prev })
+      return { ...prev }
     })
   }
 
@@ -40,7 +42,7 @@ const TestPages = () => {
       <nav className="nav-wrapper">
         <section className="container">
           <a href="/app" className="brand-logo">
-            Filter Master
+            Analytics Filter Master
           </a>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li>

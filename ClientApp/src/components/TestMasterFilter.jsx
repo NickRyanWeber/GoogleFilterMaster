@@ -5,6 +5,7 @@ import NewFilter from './NewFilter'
 import axios from 'axios'
 
 const TestMasterFilter = props => {
+  console.log({props})
   const [name, setName] = useState(props.data.name)
   const [displayName, setDisplayName] = useState(props.data.name)
   const [value, setValue] = useState(props.data.filterValue)
