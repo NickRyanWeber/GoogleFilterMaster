@@ -61,7 +61,9 @@ namespace GoogleFilterMaster.Controllers
       var foundFilter = context.MasterFilter.FirstOrDefault(m => m.Id == id);
       if (foundFilter == null)
       {
-        return NotFound();
+        context.MasterFilter.Add(masterFilter);
+        await context.SaveChangesAsync();
+        foundFilter = masterFilter;
       }
       else
       {
@@ -70,47 +72,49 @@ namespace GoogleFilterMaster.Controllers
         foundFilter.Name = masterFilter.Name;
         // Value
         foundFilter.FilterValue = masterFilter.FilterValue;
-        await context.SaveChangesAsync();
-        // Delete All Selected Filters for the MasterFilter, and create new ones from the object
-        var selectedFiltersToBeDeleted = context.SelectedFilter.Where(w => w.MasterFilterId == foundFilter.Id);
-        context.SelectedFilter.RemoveRange(selectedFiltersToBeDeleted);
-        await context.SaveChangesAsync();
-        var user = context.User.FirstOrDefault(f => f.Id == masterFilter.UserId);
-        var accessToken = user.Token;
-        foreach (var filter in masterFilter.SelectedFilter)
-        {
-          // update database
-          var _filter = new SelectedFilter { GoogleAccountId = filter.GoogleAccountId, GoogleFilterId = filter.GoogleFilterId, GoogleAccountName = filter.GoogleAccountName, GoogleFilterName = filter.GoogleFilterName, MasterFilterId = filter.MasterFilterId };
-          await context.SelectedFilter.AddAsync(_filter);
-
-          // get filter object from Google
-          var accountId = filter.GoogleAccountId;
-          var filterId = filter.GoogleFilterId;
-          var API = $"https://www.googleapis.com/analytics/v3/management/accounts/{accountId}/filters/{filterId}";
-          HttpClient getFilterClient = new HttpClient();
-          getFilterClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
-          getFilterClient.DefaultRequestHeaders.Add("Accept", "application/json");
-          HttpResponseMessage response = await getFilterClient.GetAsync(API);
-          var content = await response.Content.ReadAsStringAsync();
-          var data = JsonConvert.DeserializeObject<RootObject>(content);
-
-          // Update Filter Value
-          data.excludeDetails.expressionValue = masterFilter.FilterValue;
-
-          // Update Google
-          HttpClient postFilterClient = new HttpClient();
-          postFilterClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
-          postFilterClient.DefaultRequestHeaders.Add("Accept", "application/json");
-          // postFilterClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
-          var postContent = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-
-          HttpResponseMessage putResponse = await postFilterClient.PutAsync(API, postContent);
-          await context.SaveChangesAsync();
-        }
-        return Ok(masterFilter);
       }
+      // Delete All Selected Filters for the MasterFilter, and create new ones from the object
+      var selectedFiltersToBeDeleted = context.SelectedFilter.Where(w => w.MasterFilterId == foundFilter.Id);
+      context.SelectedFilter.RemoveRange(selectedFiltersToBeDeleted);
+      await context.SaveChangesAsync();
+      var user = context.User.FirstOrDefault(f => f.Id == masterFilter.UserId);
+      var accessToken = user.Token;
+      await context.SaveChangesAsync();
+
+      foreach (var filter in masterFilter.SelectedFilter.ToList())
+      {
+        // update database
+        var _filter = new SelectedFilter { GoogleAccountId = filter.GoogleAccountId, GoogleFilterId = filter.GoogleFilterId, GoogleAccountName = filter.GoogleAccountName, GoogleFilterName = filter.GoogleFilterName, MasterFilterId = filter.MasterFilterId };
+        await context.SelectedFilter.AddAsync(_filter);
+        await context.SaveChangesAsync();
+
+        // get filter object from Google
+        var accountId = filter.GoogleAccountId;
+        var filterId = filter.GoogleFilterId;
+        var API = $"https://www.googleapis.com/analytics/v3/management/accounts/{accountId}/filters/{filterId}";
+        HttpClient getFilterClient = new HttpClient();
+        getFilterClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+        getFilterClient.DefaultRequestHeaders.Add("Accept", "application/json");
+        HttpResponseMessage response = await getFilterClient.GetAsync(API);
+        var content = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<RootObject>(content);
+
+        // Update Filter Value
+        data.excludeDetails.expressionValue = masterFilter.FilterValue;
+
+        // Update Google
+        HttpClient postFilterClient = new HttpClient();
+        postFilterClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+        postFilterClient.DefaultRequestHeaders.Add("Accept", "application/json");
+        // postFilterClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
+        var postContent = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+
+        HttpResponseMessage putResponse = await postFilterClient.PutAsync(API, postContent);
+      }
+      return Ok(masterFilter);
     }
   }
+
 }
 
 

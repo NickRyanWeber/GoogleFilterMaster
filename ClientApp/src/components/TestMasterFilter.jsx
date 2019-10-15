@@ -19,7 +19,7 @@ const TestMasterFilter = props => {
   const [newSelectedAccount, setNewSelectedAccount] = useState('')
   const [newSelectedFilter, setNewSelectedFilter] = useState('')
   const [showNewFilter, setShowNewFilter] = useState(false)
-  const [saved, setSaved] = useState(true)
+  const [filterState, setFilterState] = useState('saved')
 
   const createCachedFilters = () => {
     let _cachedFilters = []
@@ -58,30 +58,37 @@ const TestMasterFilter = props => {
     setDisplayName(name)
     setDisplayValue(value)
     setDisplayFilters([...filters])
-    setSaved(true)
+    setFilterState('saved')
   }
 
   const saveChanges = async () => {
     setName(displayName)
     setValue(displayValue)
     setFilters(displayFilters)
-    if (props.data.id) {
-      const resp = await axios.put(`/api/test/${props.data.id}`, {
-        Name: displayName,
-        FilterValue: displayValue,
-        UserId: props.data.userId,
-        SelectedFilter: displayFilters
-      })
-      console.log(resp)
-    } else {
-      const resp = await axios.post(`/api/masterFilter`, {
-        Name: displayName,
-        FilterValue: displayValue,
-        UserId: props.data.userId,
-        SelectedFilter: displayFilters
-      })
-      console.log(resp)
-    }
+
+    // if (props.data.id) {
+    const resp = await axios.put(`/api/test/${props.data.id || 0}`, {
+      Name: displayName,
+      FilterValue: displayValue,
+      UserId: props.data.userId,
+      SelectedFilter: displayFilters
+    })
+    console.log(resp)
+
+    // } else {
+    //   const resp = await axios.post(`/api/masterFilter`, {
+    //     Name: displayName,
+    //     FilterValue: displayValue,
+    //     UserId: props.data.userId,
+    //     SelectedFilter: displayFilters
+    //   })
+    //   console.log(resp)
+    // }
+  }
+
+  const deleteFilter = async () => {
+    const resp = await axios.delete(`/api/masterFilter/${props.data.id}`)
+    console.log(resp)
   }
 
   useEffect(() => {
@@ -89,6 +96,18 @@ const TestMasterFilter = props => {
     createCachedFilters()
     console.log('filter', props)
   }, [])
+
+  const doTheThing = () => {
+    if (filterState === 'saved') {
+      return <p className="truncate green-text text-lighten-2">saved</p>
+    } else if (filterState === 'unsaved') {
+      return <p className="truncate amber-text text-darken-3">unsaved</p>
+    } else if (filterState === 'deleted') {
+      return <p className="truncate red-text text-darken-3">deleted</p>
+    } else {
+      return <p className="truncate amber-text text-darken-3">error</p>
+    }
+  }
 
   return (
     <>
@@ -103,11 +122,7 @@ const TestMasterFilter = props => {
               <div className="section">
                 <p className="truncate">Value - {displayValue}</p>
                 <p className="truncate">{displayFilters.length} filters</p>
-                {saved ? (
-                  <p className="truncate green-text text-lighten-2">saved</p>
-                ) : (
-                  <p className="truncate amber-text text-darken-3">unsaved</p>
-                )}
+                {doTheThing()}
               </div>
             </section>
           </a>
@@ -127,7 +142,7 @@ const TestMasterFilter = props => {
                   value={displayName}
                   onChange={e => {
                     setDisplayName(e.target.value)
-                    setSaved(false)
+                    setFilterState('unsaved')
                   }}
                 />
                 <label htmlFor="filter_name">Filter Name</label>
@@ -140,7 +155,7 @@ const TestMasterFilter = props => {
                   value={displayValue}
                   onChange={e => {
                     setDisplayValue(e.target.value)
-                    setSaved(false)
+                    setFilterState('unsaved')
                   }}
                 />
                 <label htmlFor="filter_value">Filter Value</label>
@@ -231,7 +246,7 @@ const TestMasterFilter = props => {
               onClick={() => {
                 addFilter()
                 setShowNewFilter(false)
-                setSaved(false)
+                setFilterState('unsaved')
               }}
             >
               Add
@@ -240,14 +255,23 @@ const TestMasterFilter = props => {
         </div>
         <div className="modal-footer">
           <a
-            // href="#modal-new-filter"
+            className="modal-close waves-effect waves-green btn-flat modal-trigger"
+            // href={`#delete-modal${props.data.id}`}
+            onClick={() => {
+              deleteFilter()
+              setFilterState('deleted')
+            }}
+          >
+            Delete
+          </a>
+          <p
             className="waves-effect waves-green btn-flat"
             onClick={() => {
               setShowNewFilter(true)
             }}
           >
-            Add New Filter
-          </a>
+            New Filter
+          </p>
           <p
             className="modal-close waves-effect waves-green btn-flat"
             onClick={() => {
@@ -260,19 +284,31 @@ const TestMasterFilter = props => {
             className="modal-close waves-effect waves-green btn-flat"
             onClick={() => {
               saveChanges()
-              setSaved(true)
+              setFilterState('saved')
             }}
           >
             Save
           </p>
         </div>
       </div>
-      <div
-        id="modal-new-filter"
+      {/* Delete Modal */}
+      {/* <div
+        id={`#delete-modal${props.data.id}`}
         className="modal modal-fixed-footer new-filter-modal"
       >
-        <NewFilter />
-      </div>
+        <div className="modal-content">
+          <h4>Modal Header</h4>
+          <p>A bunch of text</p>
+        </div>
+        <div className="modal-footer">
+          <a
+            href="#!"
+            className="modal-close waves-effect waves-green btn-flat"
+          >
+            Agree
+          </a>
+        </div>
+      </div> */}
     </>
   )
 }

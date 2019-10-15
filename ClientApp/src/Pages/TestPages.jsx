@@ -13,11 +13,11 @@ const TestPages = () => {
     console.log(resp.data)
     setMasterFilters(resp.data)
     setUserId(resp.data.id)
+    M.AutoInit()
   }
 
   useEffect(() => {
     fetchData()
-    M.AutoInit()
   }, [])
 
   const addMasterFilter = () => {
