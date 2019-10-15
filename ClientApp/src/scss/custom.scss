@@ -11,15 +11,23 @@
 //   min-height: 100%;
 // }
 
-// .card-content {
-//   cursor: pointer;
-//   color: rgba(0, 0, 0, 0.87);
-//   /* height: 155px; */
-// }
+.card-content {
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.87);
+  height: 155px;
+}
 
-// .filter-count {
-//   border: 1px solid rgba(0, 0, 0, 0.87);
-// }
+.filter-count {
+  border: 1px solid rgba(0, 0, 0, 0.87);
+}
+
+.collection {
+  overflow: visible !important;
+}
+
+.remove {
+  cursor: pointer;
+}
 
 /* This isn't being applied */
 /* .new-filter-modal {
@@ -27,8 +35,3 @@
   width: 60%;
   top: 15%;
 } */
-
-ul.collection {
-  overflow: initial;
-  border: 3px green solid;
-}

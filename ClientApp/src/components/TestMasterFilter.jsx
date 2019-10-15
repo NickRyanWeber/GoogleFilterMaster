@@ -17,6 +17,7 @@ const TestMasterFilter = props => {
   const [cachedFilters, setCachedFilters] = useState([])
   const [newSelectedAccount, setNewSelectedAccount] = useState('')
   const [newSelectedFilter, setNewSelectedFilter] = useState('')
+  const [showNewFilter, setShowNewFilter] = useState(false)
 
   const createCachedFilters = () => {
     let _cachedFilters = []
@@ -135,7 +136,7 @@ const TestMasterFilter = props => {
                   <div>
                     {filter.googleAccountName} > {filter.googleFilterName}
                     <i
-                      className="material-icons secondary-content"
+                      className="material-icons secondary-content remove"
                       onClick={() => removeSelectedFilter(i)}
                     >
                       remove_circle_outline
@@ -146,68 +147,77 @@ const TestMasterFilter = props => {
             })}
           </ul>
           {/* <div className="input-field"> */}
-          <select
-            className="browser-default"
-            name="accounts"
-            onChange={e => {
-              setNewSelectedAccount({
-                googleID: e.target.value,
-                googleName: e.target[e.target.selectedIndex].textContent
-              })
-              setNewSelectedFilter('')
-              console.log(e.target[e.target.selectedIndex].textContent)
-            }}
-          >
-            <option value="" disabled selected>
-              Choose an account
-            </option>
-            {cachedAccounts.map((account, i) => {
-              return (
-                <option value={account.googleAccountId}>{account.name}</option>
-              )
-            })}
-          </select>
-          <label for="accounts">Account</label>
-          {/* </div> */}
-          {/* <div className="input-field"> */}
-          <select
-            className="browser-default"
-            name="filters"
-            onChange={e => {
-              setNewSelectedFilter({
-                filterId: e.target.value,
-                filterName: e.target[e.target.selectedIndex].textContent
-              })
-            }}
-          >
-            <option value="" disabled selected>
-              Choose a filter
-            </option>
-            {cachedFilters
-              .filter(
-                filter => filter.accountId === newSelectedAccount.googleID
-              )
-              .map((filter, i) => {
+          <div className={showNewFilter ? '' : 'hide'}>
+            <select
+              className="browser-default"
+              name="accounts"
+              onChange={e => {
+                setNewSelectedAccount({
+                  googleID: e.target.value,
+                  googleName: e.target[e.target.selectedIndex].textContent
+                })
+                setNewSelectedFilter('')
+                console.log(e.target[e.target.selectedIndex].textContent)
+              }}
+            >
+              <option value="" disabled selected>
+                Choose an account
+              </option>
+              {cachedAccounts.map((account, i) => {
                 return (
-                  <option value={filter.filterId}>{filter.filterName}</option>
+                  <option value={account.googleAccountId}>
+                    {account.name}
+                  </option>
                 )
               })}
-          </select>
-          <label for="filters">Filter</label>
-          {/* </div> */}
-          <p
-            className="btn"
-            onClick={() => {
-              addFilter()
-            }}
-          >
-            Add
-          </p>
+            </select>
+            <label for="accounts">Account</label>
+            {/* </div> */}
+            {/* <div className="input-field"> */}
+            <select
+              className="browser-default"
+              name="filters"
+              onChange={e => {
+                setNewSelectedFilter({
+                  filterId: e.target.value,
+                  filterName: e.target[e.target.selectedIndex].textContent
+                })
+              }}
+            >
+              <option value="" disabled selected>
+                Choose a filter
+              </option>
+              {cachedFilters
+                .filter(
+                  filter => filter.accountId === newSelectedAccount.googleID
+                )
+                .map((filter, i) => {
+                  return (
+                    <option value={filter.filterId}>{filter.filterName}</option>
+                  )
+                })}
+            </select>
+            <label for="filters">Filter</label>
+            {/* </div> */}
+            <br></br>
+            <p
+              className="btn"
+              onClick={() => {
+                addFilter()
+                setShowNewFilter(false)
+              }}
+            >
+              Add
+            </p>
+          </div>
         </div>
         <div className="modal-footer">
           <a
-            href="#modal-new-filter"
-            className="waves-effect waves-green btn-flat modal-trigger"
+            // href="#modal-new-filter"
+            className="waves-effect waves-green btn-flat"
+            onClick={() => {
+              setShowNewFilter(true)
+            }}
           >
             Add New Filter
           </a>
