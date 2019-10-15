@@ -5,7 +5,7 @@ import NewFilter from './NewFilter'
 import axios from 'axios'
 
 const TestMasterFilter = props => {
-  console.log({props})
+  console.log({ props })
   const [name, setName] = useState(props.data.name)
   const [displayName, setDisplayName] = useState(props.data.name)
   const [value, setValue] = useState(props.data.filterValue)
@@ -65,13 +65,23 @@ const TestMasterFilter = props => {
     setName(displayName)
     setValue(displayValue)
     setFilters(displayFilters)
-    const resp = await axios.put(`/api/test/${props.data.id}`, {
-      Name: displayName,
-      FilterValue: displayValue,
-      UserId: props.data.userId,
-      SelectedFilter: displayFilters
-    })
-    console.log(resp)
+    if (props.data.id) {
+      const resp = await axios.put(`/api/test/${props.data.id}`, {
+        Name: displayName,
+        FilterValue: displayValue,
+        UserId: props.data.userId,
+        SelectedFilter: displayFilters
+      })
+      console.log(resp)
+    } else {
+      const resp = await axios.post(`/api/masterFilter`, {
+        Name: displayName,
+        FilterValue: displayValue,
+        UserId: props.data.userId,
+        SelectedFilter: displayFilters
+      })
+      console.log(resp)
+    }
   }
 
   useEffect(() => {
