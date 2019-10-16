@@ -69,7 +69,7 @@ namespace sdg_react_template.Controllers
         // Value
         foundFilter.FilterValue = masterFilter.FilterValue;
         await _context.SaveChangesAsync();
-        selectedFilter = foundFilter.SelectedFilter;
+        selectedFilter = masterFilter.SelectedFilter;
         //   // Delete All Selected Filters for the MasterFilter, and create new ones from the object
         var selectedFiltersToBeDeleted = _context.SelectedFilter.Where(w => w.MasterFilterId == foundFilter.Id);
         _context.SelectedFilter.RemoveRange(selectedFiltersToBeDeleted);
